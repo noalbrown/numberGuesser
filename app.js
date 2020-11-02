@@ -9,7 +9,7 @@ Game Rules
 // Game values
 let min = 1,
   max = 10,
-  winningNum = 2,
+  winningNum = getRandomNum(min, max),
   guessesLeft = 3;
 
 // UI elements
@@ -23,6 +23,13 @@ const game = document.querySelector('#game'),
 // Assign UI min and max
 minNum.textContent = min;
 maxNum.textContent = max;
+
+// Play Again event listener
+game.addEventListener('mousedown', function (e) {
+  if (e.target.className === 'play-again') {
+    window.location.reload()
+  }
+})
 
 // Listen for guess
 guessBtn.addEventListener('click', function () {
@@ -41,7 +48,7 @@ guessBtn.addEventListener('click', function () {
     guessesLeft -= 1;
 
     if (guessesLeft === 0) {
-      gameOver(false, `${winningNum} Game Over, you lost. The correct number was ${winningNum}`)
+      gameOver(false, `Game Over, you lost. The correct number was ${winningNum}`)
     } else {
       guessInput.style.borderColor = 'red';
       // Clear input
@@ -63,6 +70,15 @@ function gameOver(won, msg) {
   message.style.color = color;
   // Win message
   setMessage(msg)
+
+  // Play Again
+  guessBtn.value = 'Play Again'
+  guessBtn.className += 'play-again';
+}
+
+// Get random winning number
+function getRandomNum(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 // Set message
